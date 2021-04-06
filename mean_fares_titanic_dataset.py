@@ -9,7 +9,7 @@ from airflow.operators.bash import BashOperator
 # базовые аргументы DAG
 args = {
     'owner': 'airflow',  # Информация о владельце DAG
-    'start_date': dt.datetime(2020, 12, 23),  # Время начала выполнения пайплайна
+    'start_date': dt.datetime(2021, 4, 6),  # Время начала выполнения пайплайна
     'retries': 1,  # Количество повторений в случае неудач
     'retry_delay': dt.timedelta(minutes=1),  # Пауза между повторами
     'depends_on_past': False,  # Запуск DAG зависит ли от успешности окончания предыдущего запуска по расписанию
@@ -81,4 +81,4 @@ with DAG(
     )
     # Порядок выполнения тасок
     first_task >> create_titanic_dataset >> pivot_titanic_dataset >> last_task
-    first_task >> create_titanic_dataset >> pivot_titanic_dataset >> last_task
+    first_task >> create_titanic_dataset >> mean_fares_titanic_dataset >> last_task
