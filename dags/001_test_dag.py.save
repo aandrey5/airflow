@@ -1,8 +1,0 @@
-from airflow.models import DAG
-from modules.setting import default_settings
-from modules.dummy import dummy
-from modules.funct import 
-
-
-with DAG(**default_settings()) as dag:
-	dummy('first') >> dummy('second') >> dummy('third')
