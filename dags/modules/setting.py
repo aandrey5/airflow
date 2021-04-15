@@ -14,10 +14,10 @@ def default_settings():
 		'catchup': False,
 		'default_args': {
 		'owner': 'Morozov',
-		'start_date': dt.datetime(2021, 4, 14),
+		'start_date': dt.datetime(2021, 4, 16),
 		'retries': 1,
 		'retry_delay': dt.timedelta(minutes=1),
-		'depende_on_past': False
+		'depende_on_past': False,
 		}
 	}
 
