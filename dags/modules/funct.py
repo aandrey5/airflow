@@ -3,6 +3,15 @@ import datetime as dt
 import pandas as pd
 import numpy as np
 from modules.decor import python_operator
+from airflow.hooks.base import BaseHook
+from airflow.models import Variable
+#from decor import python_operator
+
+
+@python_operator()
+def connection_operator(**context):
+	postg_hook = BaseHook.get_hook('airflow_dwh')
+	import pdb; pdb.set_trace()
 
 
 def get_path(file_name):

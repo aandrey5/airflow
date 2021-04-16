@@ -13,11 +13,11 @@ def default_settings():
 		'schedule_interval': '@daily',
 		'catchup': False,
 		'default_args': {
-		'owner': 'Morozov',
-		'start_date': dt.datetime(2021, 4, 16),
+		'owner': 'MorozovAN',
+		'start_date': dt.datetime(2020, 4, 16),
 		'retries': 1,
-		'retry_delay': dt.timedelta(minutes=1),
-		'depende_on_past': False,
+		'retry_delay': dt.timedelta(minutes=2),
+		'depends_on_past': False,
 		}
 	}
 
