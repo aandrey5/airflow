@@ -6,6 +6,7 @@ import numpy as np
 from modules.decor import python_operator
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
+from sqlalchemy import create_engine, String, Integer, Float
 #from decor import python_operator
 
 
@@ -59,8 +60,23 @@ def pivot_dataset():
 def pull_from_xcom(**context):
     avg_pull_xcom = context['task_instance'].xcom_pull(task_ids='mean_fare_per_class', key='mean_class')
     df_pull_xcom = context['task_instance'].xcom_pull(task_ids='download_titanic_dataset', key='titanic')
-    avg_pull_xcom_out =pd.json_normalize(json.loads(avg_pull_xcom))
-    df_pull_xcom_out = pd.json_normalize(json.loads(df_pull_xcom))
+    avg_pull_xcom_out =pd.read_json(avg_pull_xcom, orient='table')
+    df_pull_xcom_out = pd.read_json(df_pull_xcom, orient='table')
     avg_pull_xcom_out.to_csv(get_path('avg_pull_xcom_out.csv'))
     df_pull_xcom_out.to_csv(get_path('df_pull_xcom_out.csv'))
+
+
+@python_operator()
+def push_to_postgresql():
+   # create sql engine for sqlalchemy
+    db_string_airflow = 'postgresql://airflow_xcom:1q2w3e4r5T@192.168.147.128/data_warehouse'
+    engine = create_engine(db_string_airflow)
+   # read csv from previous xcom tasks 
+    avg_pull_xcom_df = pd.read_csv(get_path('avg_pull_xcom_out.csv'))
+    df_pull_xcom_df = pd.read_csv(get_path('df_pull_xcom_out.csv'))
+   # push data to postgresql
+    avg_pull_xcom_df.to_sql('avg_table', con=engine, if_exists='replace')
+    df_pull_xcom_df.to_sql('df_table', con=engine, if_exists='replace')
  
+
+
