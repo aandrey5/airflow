@@ -74,9 +74,12 @@ def push_to_postgresql():
    # read csv from previous xcom tasks 
     avg_pull_xcom_df = pd.read_csv(get_path('avg_pull_xcom_out.csv'))
     df_pull_xcom_df = pd.read_csv(get_path('df_pull_xcom_out.csv'))
+   # get names of tables from variables
+    avg_table = Variable.get('table_dwh_mean')
+    df_table = Variable.get('table_dwh_data')
    # push data to postgresql
-    avg_pull_xcom_df.to_sql('avg_table', con=engine, if_exists='replace')
-    df_pull_xcom_df.to_sql('df_table', con=engine, if_exists='replace')
+    avg_pull_xcom_df.to_sql(avg_table, con=engine, if_exists='replace')
+    df_pull_xcom_df.to_sql(df_table, con=engine, if_exists='replace')
  
 
 
