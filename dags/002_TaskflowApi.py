@@ -17,10 +17,13 @@ def TaskFlowApi():
     @task()
     def download_titanic_dataset():
         if get_path('titanic.csv'):
+            df = pd.read_csv(get_path('titanic.csv'), encoding='utf-8')
+
+            
+        else: 
             url = 'https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/stuff/titanic.csv'
             df = pd.read_csv(url)
             df.to_csv(get_path('titanic.csv'), encoding='utf-8')
-        else: df = pd.read_csv(get_path('titanic.csv'), encoding='utf-8')
 
         df_xcom = df.to_json(orient='table')
         dataset_df = df_xcom
